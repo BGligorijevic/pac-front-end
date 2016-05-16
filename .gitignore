@@ -4,7 +4,7 @@ node_modules/
 bower_components/
 
 /scripts/bower/bower-*
-/typings/
+typings/
 
 # tmp files
 *.log
