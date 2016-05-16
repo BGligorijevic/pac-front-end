@@ -18,6 +18,7 @@ tmp/
 *.iml
 .idea/workspace.xml
 
-# compiled typescript files
+# typescript 
 /voting/app/*.js
 /voting/app/*.map
+.npm-debug
