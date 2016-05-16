@@ -1,12 +1,7 @@
 # generic
 /build/
-/benchpress-build/
-.DS_Store
-angular.js.tmproj
-/node_modules/
+node_modules/
 bower_components/
-libpeerconnection.log
-npm-debug.log
 
 /scripts/bower/bower-*
 /typings/
@@ -14,7 +9,7 @@ npm-debug.log
 # tmp files
 *.log
 *.stackdump
-/tmp/
+tmp/
 *~
 *.swp
 
