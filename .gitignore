@@ -1,24 +1,14 @@
-# generic
-/build/
-node_modules/
-bower_components/
+# NPM
+node_modules
+npm-debug.log
+typings
 
-/scripts/bower/bower-*
-typings/
-
-# tmp files
-*.log
-*.stackdump
-tmp/
-*~
-*.swp
-
-# idea
+# Code Editor Settings
 .idea
-*.iml
-.idea/workspace.xml
 
-# typescript 
-/voting/app/*.js
-/voting/app/*.map
-.npm-debug
+# Build Generated Files
+src/app/**/*.js
+src/app/**/*.js.map
+
+
+
