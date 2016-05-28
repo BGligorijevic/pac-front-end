@@ -1,20 +1,20 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from "@angular/core";
 import {AuthenticationService} from "../login/authentication.service";
 
 @Component({
     moduleId: module.id,
-    selector: 'home',
-    templateUrl: 'home.html'
+    selector: "home",
+    templateUrl: "home.html"
 })
-export class Home {
-    constructor(private service:AuthenticationService) {
+export class Home implements OnInit {
+    constructor(private authService:AuthenticationService) {
     }
 
     ngOnInit() {
-        this.service.checkCredentials();
+        this.authService.checkCredentials();
     }
 
     logout() {
-        this.service.logout();
+        this.authService.logout();
     }
 }
