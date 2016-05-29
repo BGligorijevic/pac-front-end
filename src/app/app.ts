@@ -14,7 +14,7 @@ import {PROVIDERS} from "./providers";
 })
 @Routes([
     {path: "/", component: Home},
-    {path: "/login", component: Login},
+    {path: "/login", component: Login}
 ])
 export class AppComponent {
 
