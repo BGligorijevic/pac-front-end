@@ -7,7 +7,7 @@ import {PROVIDERS} from "./providers";
 
 @Component({
     moduleId: module.id,
-    selector: "app-container",
+    selector: "app",
     template: `<router-outlet></router-outlet>`,
     directives: [ROUTER_DIRECTIVES],
     providers: [PROVIDERS]
