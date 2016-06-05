@@ -4,8 +4,9 @@ npm-debug.log
 typings
 build
 
-# Code Editor Settings
+# IDE Settings
 .idea
+.vscode
 
 # Build Generated Files
 src/app/**/*.js

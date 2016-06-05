@@ -1,5 +1,8 @@
 import {Component, OnInit} from "@angular/core";
-import {AuthenticationService} from "../login/authentication.service";
+import {Login} from "../login/login";
+import {User} from "../login/user";
+import {Router} from "@angular/router";
+import * as Const from "../config/constants";
 
 @Component({
     moduleId: module.id,
@@ -7,14 +10,24 @@ import {AuthenticationService} from "../login/authentication.service";
     templateUrl: "home.html"
 })
 export class Home implements OnInit {
-    constructor(private authService:AuthenticationService) {
+
+    private loggedInUser: String;
+
+    constructor(private login: Login, private router: Router) {
     }
 
     ngOnInit() {
-        this.authService.checkCredentials();
+        var loggedIn = this.login.isLoggedIn();
+        
+        if (loggedIn) {
+            var loginData: Object = JSON.parse(localStorage.getItem(Const.STORAGE_USER_PARAM));
+            this.loggedInUser = loginData['userName'];
+        } else {
+            this.router.navigate(["login"]);
+        }
     }
 
     logout() {
-        this.authService.logout();
+        this.login.logout();
     }
 }
