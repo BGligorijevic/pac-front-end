@@ -2,24 +2,23 @@ import {Component} from "@angular/core";
 import {ROUTER_DIRECTIVES} from "@angular/router";
 import {Router} from "@angular/router";
 import {Http, Headers} from "@angular/http";
-import * as Const from "../config/constants";
-import {User} from "./user";
+import * as Const from "../util/constants";
+import { ErrorComponent, ErrorHandler } from '../error/error';
 import "rxjs/add/operator/map";
 
 @Component({
     moduleId: module.id,
     selector: "login",
     templateUrl: "login.html",
-    directives: [ROUTER_DIRECTIVES]
+    directives: [ROUTER_DIRECTIVES, ErrorComponent]
 })
-export class Login {
+export class LoginComponent extends ErrorHandler {
 
     private user: User;
-    private errorMsg: String;
     private headers: Headers;
 
-
     constructor(private http: Http, private router: Router) {
+        super();
         this.headers = new Headers();
         this.headers.append("Content-Type", "application/json");
         this.headers.append("Accept", "application/json");
@@ -35,7 +34,7 @@ export class Login {
             .map(response => response.text())
             .subscribe(
             token => this.onLoginSuccess(token),
-            err => this.onLoginFailed(err)
+            err => this.handleError(err, "Invalid credentials. Please try again.")
             );
     }
 
@@ -45,22 +44,20 @@ export class Login {
     }
 
     private onLoginSuccess(token: string) {
-        this.errorMsg = "";
-
         var user = {
             userName: this.user.userName,
             token: token
         };
         localStorage.setItem(Const.STORAGE_USER_PARAM, JSON.stringify(user));
 
-        this.router.navigate(["/"]);
+        this.router.navigate(["/polls"]);
     }
+}
 
-    private onLoginFailed(err) {
-        if (Const.NO_RESPONSE === err.type) {
-            this.errorMsg = "Server unavailable.";
-        } else {
-            this.errorMsg = "Invalid credentials. Please try again.";
-        }
-    }
+/**
+ * Domain class representing user.
+ */
+export class User {
+    userName: string;
+    password: string;
 }

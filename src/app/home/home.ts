@@ -1,22 +1,26 @@
 import {Component, OnInit} from "@angular/core";
-import {Login} from "../login/login";
-import {User} from "../login/user";
+import {LoginComponent, User} from "../login/login";
 import {Router} from "@angular/router";
 import {Http, Headers} from "@angular/http";
-import * as Const from "../config/constants";
+import { PollsComponent, Poll } from '../poll/polls';
+import { ErrorComponent, ErrorHandler } from '../error/error';
+import * as Const from "../util/constants";
 
 @Component({
     moduleId: module.id,
     selector: "home",
-    templateUrl: "home.html"
+    templateUrl: "home.html",
+    directives: [PollsComponent, ErrorComponent]
 })
-export class Home implements OnInit {
+export class HomeComponent extends ErrorHandler implements OnInit {
 
-    private loggedInUser: String;
+    private loggedInUser: string;
     private headers: Headers;
     private token: string;
+    private polls: Poll[];
 
-    constructor(private login: Login, private router: Router, private http: Http) {
+    constructor(private login: LoginComponent, private router: Router, private http: Http) {
+        super();
         this.headers = new Headers();
         this.headers.append("Content-Type", "application/json");
         this.headers.append("Accept", "application/json");
@@ -29,6 +33,8 @@ export class Home implements OnInit {
             var loginData: Object = JSON.parse(localStorage.getItem(Const.STORAGE_USER_PARAM));
             this.loggedInUser = loginData['userName'];
             this.token = loginData['token'];
+            this.headers.set("Authorization", "Bearer " + this.token);
+
             this.loadVotes();
         } else {
             this.router.navigate(["login"]);
@@ -36,25 +42,15 @@ export class Home implements OnInit {
     }
 
     private loadVotes() {
-        this.headers.append("Authorization", "Bearer " + this.token);
-
         this.http.get(Const.POLLS_URL, { headers: this.headers })
             .map(response => response.json())
             .subscribe(
-            polls => this.displayPolls(polls),
-            err => this.onFailed(err)
+            polls => this.polls = polls,
+            err => this.handleError(err, "An error occured while loading polls.")
             );
     }
 
     logout() {
         this.login.logout();
-    }
-
-    private displayPolls(polls: any) {
-        console.log(polls);
-    }
-
-    private onFailed(err) {
-        console.error(err);
     }
 }

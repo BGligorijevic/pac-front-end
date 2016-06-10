@@ -1,8 +1,8 @@
 import {Component} from "@angular/core";
 import {ROUTER_DIRECTIVES, Routes, Router} from "@angular/router";
 
-import {Home} from "./home/home";
-import {Login} from "./login/login";
+import {HomeComponent} from "./home/home";
+import {LoginComponent} from "./login/login";
 import {PROVIDERS} from "./providers";
 
 @Component({
@@ -13,11 +13,12 @@ import {PROVIDERS} from "./providers";
     providers: [PROVIDERS]
 })
 @Routes([
-    {path: "/", component: Home},
-    {path: "/login", component: Login}
+    { path: "/", component: HomeComponent },
+    { path: "/polls", component: HomeComponent },
+    { path: "/login", component: LoginComponent }
 ])
 export class AppComponent {
 
-    constructor(private router:Router) {
+    constructor(private router: Router) {
     }
 }

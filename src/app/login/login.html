@@ -1,21 +1,21 @@
 <h2>Welcome to the voting application</h2>
 <form class="form-horizontal" role="form">
-    <div class="form-group">
-      <label class="control-label col-sm-2" for="email">Username:</label>
-      <div class="col-sm-10">
-         <input [(ngModel)]="user.userName" type="text" class="form-control" id="pwd" placeholder="username">
-      </div>
+  <div class="form-group">
+    <label class="control-label col-sm-2" for="email">Username:</label>
+    <div class="col-sm-10">
+      <input [(ngModel)]="user.userName" type="text" class="form-control" id="pwd" placeholder="username">
     </div>
-    <div class="form-group">
-      <label class="control-label col-sm-2" for="pwd">Password:</label>
-      <div class="col-sm-10">          
-        <input [(ngModel)]="user.password" type="password" class="form-control" id="pwd" placeholder="password">
-      </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-2" for="pwd">Password:</label>
+    <div class="col-sm-10">
+      <input [(ngModel)]="user.password" type="password" class="form-control" id="pwd" placeholder="password">
     </div>
-    <div class="form-group">        
-      <div class="col-sm-offset-2 col-sm-10">
-        <div *ngIf="errorMsg" class="alert alert-danger fade in">{{errorMsg}}</div>
-        <button  (click)="login()" type="submit" class="btn btn-primary">Login</button>
-      </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <error [model]="errorMessage"></error>
+      <button (click)="login()" type="submit" class="btn btn-primary">Login</button>
     </div>
-  </form>
+  </div>
+</form>
