@@ -4,7 +4,6 @@ import {Router} from "@angular/router";
 import {Http, Headers} from "@angular/http";
 import * as Const from "../config/constants";
 import {User} from "./user";
-
 import "rxjs/add/operator/map";
 
 @Component({
@@ -19,6 +18,7 @@ export class Login {
     private errorMsg: String;
     private headers: Headers;
 
+
     constructor(private http: Http, private router: Router) {
         this.headers = new Headers();
         this.headers.append("Content-Type", "application/json");
@@ -26,7 +26,7 @@ export class Login {
         this.user = new User();
     }
 
-    isLoggedIn() : boolean {
+    isLoggedIn(): boolean {
         return localStorage.getItem(Const.STORAGE_USER_PARAM) !== null;
     }
 
@@ -35,7 +35,7 @@ export class Login {
             .map(response => response.text())
             .subscribe(
             token => this.onLoginSuccess(token),
-            err => this.onLoginFailed()
+            err => this.onLoginFailed(err)
             );
     }
 
@@ -46,7 +46,7 @@ export class Login {
 
     private onLoginSuccess(token: string) {
         this.errorMsg = "";
-        
+
         var user = {
             userName: this.user.userName,
             token: token
@@ -56,7 +56,11 @@ export class Login {
         this.router.navigate(["/"]);
     }
 
-    private onLoginFailed() {
-        this.errorMsg = "Invalid credentials. Please try again.";
+    private onLoginFailed(err) {
+        if (Const.NO_RESPONSE === err.type) {
+            this.errorMsg = "Server unavailable.";
+        } else {
+            this.errorMsg = "Invalid credentials. Please try again.";
+        }
     }
 }
