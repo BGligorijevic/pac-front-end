@@ -1,9 +1,10 @@
 import {Component, OnInit} from "@angular/core";
 import {LoginComponent, User} from "../login/login";
 import {Router} from "@angular/router";
-import {Http, Headers} from "@angular/http";
-import { PollsComponent, Poll } from '../poll/polls';
-import { ErrorComponent, ErrorHandler } from '../error/error';
+import {Http} from "@angular/http";
+import {PollsComponent, Poll} from '../poll/polls';
+import {ErrorComponent, ErrorHandler} from '../error/error';
+import {HeaderService} from "../util/header.service"
 import * as Const from "../util/constants";
 
 @Component({
@@ -15,15 +16,11 @@ import * as Const from "../util/constants";
 export class HomeComponent extends ErrorHandler implements OnInit {
 
     private loggedInUser: string;
-    private headers: Headers;
-    private token: string;
     private polls: Poll[];
 
-    constructor(private login: LoginComponent, private router: Router, private http: Http) {
+    constructor(private login: LoginComponent, private router: Router,
+        private http: Http, private headerService: HeaderService) {
         super();
-        this.headers = new Headers();
-        this.headers.append("Content-Type", "application/json");
-        this.headers.append("Accept", "application/json");
     }
 
     ngOnInit() {
@@ -32,22 +29,36 @@ export class HomeComponent extends ErrorHandler implements OnInit {
         if (loggedIn) {
             var loginData: Object = JSON.parse(localStorage.getItem(Const.STORAGE_USER_PARAM));
             this.loggedInUser = loginData['userName'];
-            this.token = loginData['token'];
-            this.headers.set("Authorization", "Bearer " + this.token);
+            this.headerService.addAuthorizationData(loginData['token']);
 
-            this.loadVotes();
+            this.loadPolls();
         } else {
             this.router.navigate(["login"]);
         }
     }
 
-    private loadVotes() {
-        this.http.get(Const.POLLS_URL, { headers: this.headers })
+    private loadPolls() {
+        this.http.get(Const.POLLS_URL, { headers: this.headerService.getHeaders() })
             .map(response => response.json())
             .subscribe(
-            polls => this.polls = polls,
+            polls => this.displayPolls(polls),
             err => this.handleError(err, "An error occured while loading polls.")
             );
+    }
+
+    displayPolls(polls: Poll[]) {
+        this.polls = polls;
+
+        polls.forEach(poll => {
+            poll.pollOptions.forEach(option => {
+                option.votes.forEach(vote => {
+                    if (vote.user === this.loggedInUser) {
+                        option.voted = true;
+                        poll.voted = true;
+                    }
+                });
+            });
+        });
     }
 
     logout() {

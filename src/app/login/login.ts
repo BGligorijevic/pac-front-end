@@ -2,8 +2,9 @@ import {Component} from "@angular/core";
 import {ROUTER_DIRECTIVES} from "@angular/router";
 import {Router} from "@angular/router";
 import {Http, Headers} from "@angular/http";
+import {HeaderService} from "../util/header.service";
+import {ErrorComponent, ErrorHandler} from '../error/error';
 import * as Const from "../util/constants";
-import { ErrorComponent, ErrorHandler } from '../error/error';
 import "rxjs/add/operator/map";
 
 @Component({
@@ -15,13 +16,9 @@ import "rxjs/add/operator/map";
 export class LoginComponent extends ErrorHandler {
 
     private user: User;
-    private headers: Headers;
 
-    constructor(private http: Http, private router: Router) {
+    constructor(private http: Http, private router: Router, private headerService: HeaderService) {
         super();
-        this.headers = new Headers();
-        this.headers.append("Content-Type", "application/json");
-        this.headers.append("Accept", "application/json");
         this.user = new User();
     }
 
@@ -30,7 +27,7 @@ export class LoginComponent extends ErrorHandler {
     }
 
     login() {
-        this.http.post(Const.LOGIN_URL, JSON.stringify(this.user), { headers: this.headers })
+        this.http.post(Const.LOGIN_URL, JSON.stringify(this.user), { headers: this.headerService.getHeaders() })
             .map(response => response.text())
             .subscribe(
             token => this.onLoginSuccess(token),

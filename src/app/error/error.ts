@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Http, Headers} from "@angular/http";
 import * as Const from "../util/constants";
 
@@ -25,5 +25,9 @@ export class ErrorHandler {
         } else {
             this.errorMessage = customMessage;
         }
+    }
+
+    protected removeErrorMessage() {
+        this.errorMessage = "";
     }
 }

@@ -1,16 +1,17 @@
 import {Component} from "@angular/core";
-import {ROUTER_DIRECTIVES, Routes, Router} from "@angular/router";
-
+import {ROUTER_DIRECTIVES, ROUTER_PROVIDERS, Routes, Router} from "@angular/router";
 import {HomeComponent} from "./home/home";
 import {LoginComponent} from "./login/login";
-import {PROVIDERS} from "./providers";
+import {HTTP_PROVIDERS} from "@angular/http";
+import {FORM_PROVIDERS} from "@angular/common";
+import {HeaderService}  from "./util/header.service";
 
 @Component({
     moduleId: module.id,
     selector: "app",
     template: `<router-outlet></router-outlet>`,
     directives: [ROUTER_DIRECTIVES],
-    providers: [PROVIDERS]
+    providers: [FORM_PROVIDERS, ROUTER_PROVIDERS, HTTP_PROVIDERS, LoginComponent, HeaderService]
 })
 @Routes([
     { path: "/", component: HomeComponent },
@@ -22,3 +23,4 @@ export class AppComponent {
     constructor(private router: Router) {
     }
 }
+
