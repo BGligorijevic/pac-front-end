@@ -53,7 +53,6 @@ export class HomeComponent extends ErrorHandler implements OnInit {
             poll.pollOptions.forEach(option => {
                 option.votes.forEach(vote => {
                     if (vote.user === this.loggedInUser) {
-                        option.voted = true;
                         poll.voted = true;
                     }
                 });

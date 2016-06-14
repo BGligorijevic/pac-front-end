@@ -19,21 +19,21 @@ export class PollsComponent extends ErrorHandler {
     super();
   }
 
-  onOptionVoted(pollOption: PollOption, poll: Poll) {
+  onOptionVoted(pollOption: PollOption, pollModel: Poll) {
     event.preventDefault();
 
     let voteUrl = Const.VOTE_URL.replace("{pollId}", pollOption.pollId).replace("{optionId}", pollOption._id);
     this.http.post(voteUrl, '', { headers: this.headerService.getHeaders() })
-      .map(response => response)
+      .map(response => response.json())
       .subscribe(
-      response => this.onVoteSuccess(pollOption, poll),
+      pollResult => this.onVoteSuccess(pollModel, pollResult),
       err => this.handleError(err, "You can only vote once on the same poll.")
       );
   }
 
-  private onVoteSuccess(pollOption: PollOption, poll: Poll) {
-    pollOption.voted = true;
-    poll.voted = true;
+  private onVoteSuccess(pollModel: Poll, pollResult: Poll) {
+    pollModel.pollOptions = pollResult.pollOptions;
+    pollModel.voted = true;
     this.removeErrorMessage();
   }
 }
@@ -59,7 +59,7 @@ export class PollOption {
   name: string;
   pollId: string;
   votes: Vote[];
-  voted: boolean;
+  percentage: number;
 }
 
 /**
