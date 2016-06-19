@@ -49,6 +49,8 @@ export class Poll {
   changeDate: Date;
   pollOptions: PollOption[];
   voted: boolean;
+  editable: boolean;
+  deletable: boolean;
 }
 
 /**

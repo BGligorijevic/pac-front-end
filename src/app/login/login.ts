@@ -15,11 +15,10 @@ import "rxjs/add/operator/map";
 })
 export class LoginComponent extends ErrorHandler {
 
-    private user: User;
+    private user: User = new User();
 
     constructor(private http: Http, private router: Router, private headerService: HeaderService) {
         super();
-        this.user = new User();
     }
 
     isLoggedIn(): boolean {
@@ -28,26 +27,25 @@ export class LoginComponent extends ErrorHandler {
 
     login() {
         this.http.post(Const.LOGIN_URL, JSON.stringify(this.user), { headers: this.headerService.getHeaders() })
-            .map(response => response.text())
+            .map(response => response.json())
             .subscribe(
-            token => this.onLoginSuccess(token),
+            user => this.onLoginSuccess(user),
             err => this.handleError(err, "Invalid credentials. Please try again.")
             );
     }
 
-    logout() {
+    logout(): void {
         localStorage.removeItem(Const.STORAGE_USER_PARAM);
         this.router.navigate(["login"]);
     }
 
-    private onLoginSuccess(token: string) {
-        var user = {
-            userName: this.user.userName,
-            token: token
-        };
+    private onLoginSuccess(user: User): void {
         localStorage.setItem(Const.STORAGE_USER_PARAM, JSON.stringify(user));
-
         this.router.navigate(["/polls"]);
+    }
+
+    public getUserFromLocalStorage(): User {
+        return JSON.parse(localStorage.getItem(Const.STORAGE_USER_PARAM));
     }
 }
 
@@ -56,5 +54,14 @@ export class LoginComponent extends ErrorHandler {
  */
 export class User {
     userName: string;
-    password: string;
+    token: string;
+    role: Role;
+}
+
+/**
+ * Domain enum representing role.
+ */
+export enum Role {
+    USER,
+    ADMINISTRATOR
 }

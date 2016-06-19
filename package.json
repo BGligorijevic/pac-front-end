@@ -7,7 +7,7 @@
     "clean": "gulp clean",
     "compile": "gulp compile",
     "build": "gulp clean && gulp build",
-    "start": "gulp clean && gulp build && concurrent --kill-others \"gulp watch\" \"lite-server\"",
+    "start": "concurrent --kill-others \"gulp watch\" \"lite-server\"",
     "postinstall": "typings install"
   },
   "dependencies": {

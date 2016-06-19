@@ -15,7 +15,7 @@ import * as Const from "../util/constants";
 })
 export class HomeComponent extends ErrorHandler implements OnInit {
 
-    private loggedInUser: string;
+    private loggedInUser: User = new User();
     private polls: Poll[];
 
     constructor(private login: LoginComponent, private router: Router,
@@ -27,9 +27,8 @@ export class HomeComponent extends ErrorHandler implements OnInit {
         var loggedIn = this.login.isLoggedIn();
 
         if (loggedIn) {
-            var loginData: Object = JSON.parse(localStorage.getItem(Const.STORAGE_USER_PARAM));
-            this.loggedInUser = loginData['userName'];
-            this.headerService.addAuthorizationData(loginData['token']);
+           this.loggedInUser = this.login.getUserFromLocalStorage();
+           this.headerService.addAuthorizationData(this.loggedInUser.token);
 
             this.loadPolls();
         } else {
@@ -52,12 +51,20 @@ export class HomeComponent extends ErrorHandler implements OnInit {
         polls.forEach(poll => {
             poll.pollOptions.forEach(option => {
                 option.votes.forEach(vote => {
-                    if (vote.user === this.loggedInUser) {
+                    if (vote.user === this.loggedInUser.userName) {
                         poll.voted = true;
                     }
                 });
             });
         });
+    }
+
+    private hasEditPermissions(): boolean {
+        return true;
+    }
+
+    private hasDeletePermissions(): boolean {
+        return true;
     }
 
     logout() {

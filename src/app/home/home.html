@@ -1,6 +1,6 @@
 <div class="container">
     <div class="content">
-        <span>Welcome, {{loggedInUser}}!</span>
+        <span>Welcome, {{loggedInUser.userName}}! {{loggedInUser.role}}</span>
         <a (click)="logout()" href="#">Click Here to logout</a>
     </div>
 </div>
