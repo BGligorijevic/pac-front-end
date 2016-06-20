@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {LoginComponent, User} from "../login/login";
+import {LoginComponent, User, Role} from "../login/login";
 import {Router} from "@angular/router";
 import {Http} from "@angular/http";
 import {PollsComponent, Poll} from '../poll/polls';
@@ -27,8 +27,8 @@ export class HomeComponent extends ErrorHandler implements OnInit {
         var loggedIn = this.login.isLoggedIn();
 
         if (loggedIn) {
-           this.loggedInUser = this.login.getUserFromLocalStorage();
-           this.headerService.addAuthorizationData(this.loggedInUser.token);
+            this.loggedInUser = this.login.getUserFromLocalStorage();
+            this.headerService.addAuthorizationData(this.loggedInUser.token);
 
             this.loadPolls();
         } else {
@@ -49,6 +49,8 @@ export class HomeComponent extends ErrorHandler implements OnInit {
         this.polls = polls;
 
         polls.forEach(poll => {
+            this.updatePermissions(poll);
+
             poll.pollOptions.forEach(option => {
                 option.votes.forEach(vote => {
                     if (vote.user === this.loggedInUser.userName) {
@@ -59,12 +61,15 @@ export class HomeComponent extends ErrorHandler implements OnInit {
         });
     }
 
-    private hasEditPermissions(): boolean {
-        return true;
+    private updatePermissions(poll: Poll): void {
+        if (this.allowedToChangeOrDelete(poll)) {
+            poll.editable = true;
+            poll.deletable = true;
+        }
     }
 
-    private hasDeletePermissions(): boolean {
-        return true;
+    private allowedToChangeOrDelete(poll: Poll): boolean {
+        return Const.ADMINISTRATOR === this.loggedInUser.role || this.loggedInUser.userName === poll.creator;
     }
 
     logout() {

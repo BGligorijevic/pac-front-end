@@ -55,13 +55,5 @@ export class LoginComponent extends ErrorHandler {
 export class User {
     userName: string;
     token: string;
-    role: Role;
-}
-
-/**
- * Domain enum representing role.
- */
-export enum Role {
-    USER,
-    ADMINISTRATOR
+    role: string;
 }

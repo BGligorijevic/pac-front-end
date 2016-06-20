@@ -1,7 +1,18 @@
 <error [model]="errorMessage"></error>
 <div *ngFor="let poll of polls">
-    <h2>{{poll.title}}</h2>
-    <h4>{{poll.description}}</h4>
+    <div *ngIf="!poll.inEditingMode">
+        <h2 (click)="turnOnEditingMode(poll)">{{poll.title}}</h2>
+        <h4 (click)="turnOnEditingMode(poll)">{{poll.description}}</h4>
+    </div>
+    <div *ngIf="poll.inEditingMode">
+        <button (click)="save(poll)">Save</button>
+        <button (click)="discard(poll)">Discard</button>
+        <button (click)="remove(poll)">Remove this poll</button>
+        <h2><input name="poll-title" type="text" [(ngModel)]="poll.title" />
+        </h2>
+        <h4><input name="poll-description" type="text" [(ngModel)]="poll.description" /></h4>
+    </div>
+
     <div *ngFor="let option of poll.pollOptions">
         <div *ngIf="!poll.voted">
             <input type="checkbox" name="{{option.name}}" (click)="onOptionVoted(option, poll)">{{option.name}}
@@ -9,5 +20,9 @@
         <div *ngIf="poll.voted">
             {{option.name}} has {{option.votes.length}} votes ({{option.percentage}}%)
         </div>
+    </div>
+
+    <div *ngIf="poll.inEditingMode">
+        <input type="text" name="new-option" placeholder="add new option?" />
     </div>
 </div>

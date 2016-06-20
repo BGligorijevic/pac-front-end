@@ -21,7 +21,7 @@ export class ErrorHandler {
 
     protected handleError(err, customMessage: string) {
         if (Const.NO_RESPONSE === err.type) {
-            this.errorMessage = "Server unavailable.";
+            this.errorMessage = "General server problem. Is server running?";
         } else {
             this.errorMessage = customMessage;
         }
