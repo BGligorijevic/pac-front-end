@@ -1,0 +1,11 @@
+<div class="container">
+    <form [ngFormModel]="loginForm" (submit)="savePoll($event)">
+        <div class="form-group">
+            <input ngControl="title" type="title" placeholder="Poll title" class="form-control" />
+        </div>
+        <div class="form-group">
+            <textarea ngControl="description" type="description" placeholder="Description" class="form-control" ></textarea>
+        </div>
+        <button type="submit" class="btn btn-default" [disabled]="!loginForm.valid">Save poll</button>
+    </form>
+</div>

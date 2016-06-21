@@ -1,6 +1,5 @@
 import {Component} from "@angular/core";
-import {ROUTER_DIRECTIVES} from "@angular/router";
-import {Router} from "@angular/router";
+import {ROUTER_DIRECTIVES, Router} from "@angular/router";
 import {Http, Headers} from "@angular/http";
 import {HeaderService} from "../util/header.service";
 import {ErrorComponent, ErrorHandler} from '../error/error';
@@ -41,7 +40,7 @@ export class LoginComponent extends ErrorHandler {
 
     private onLoginSuccess(user: User): void {
         localStorage.setItem(Const.STORAGE_USER_PARAM, JSON.stringify(user));
-        this.router.navigate(["/polls"]);
+        this.router.navigate(["polls"]);
     }
 
     public getUserFromLocalStorage(): User {

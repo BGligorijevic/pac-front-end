@@ -12,6 +12,16 @@ main {
     padding-top: 60px;
 }
 
+.progress-bar {
+    text-align: left;
+}
+
+.progress-bar label {
+    color: black;
+    margin-left: 10px;
+}
+
+
 /* Ensure display:flex and others don't override a [hidden] */
 [hidden] { display: none !important; }
 
@@ -143,7 +153,7 @@ a.navbar-brand {
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
-    background-color: #027FF4;
+    background-color: #A0C52A;
     background-image: none;
 }
 
@@ -156,11 +166,12 @@ footer {
 }
 
 .navbar-inner.footer {
-    background-color: #fafafa;
+    background-color: #A0C52A;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
     height:50px;
+    color: white;
 }
 
 .navbar .nav > .active > a, .navbar .nav > .active > a:hover, .navbar .nav > .active > a:focus {
@@ -231,14 +242,6 @@ footer {
     margin-top: 15px;
 }
 
-.navbar-inner.footer {
-    background-color: #fafafa;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-    height:50px;
-}
-
 filter-textbox {
     margin-top: 5px;
 }
@@ -257,5 +260,10 @@ form {
 
 a:hover, a:focus {
   text-decoration: none;
+}
+
+.poll-wrapper {
+    width: 40%;
+    margin-top: 45px;
 }
 

@@ -1,28 +1,37 @@
 <error [model]="errorMessage"></error>
+
+<br><br>
+<button (click)="addNewPoll()" class="btn btn-default">Add new poll</button>
+
 <div *ngFor="let poll of polls">
-    <div *ngIf="!poll.inEditingMode">
-        <h2 (click)="turnOnEditingMode(poll)">{{poll.title}}</h2>
-        <h4 (click)="turnOnEditingMode(poll)">{{poll.description}}</h4>
-    </div>
-    <div *ngIf="poll.inEditingMode">
-        <button (click)="save(poll)">Save</button>
-        <button (click)="discard(poll)">Discard</button>
-        <button (click)="remove(poll)">Remove this poll</button>
-        <h2><input name="poll-title" type="text" [(ngModel)]="poll.title" />
-        </h2>
-        <h4><input name="poll-description" type="text" [(ngModel)]="poll.description" /></h4>
-    </div>
-
-    <div *ngFor="let option of poll.pollOptions">
-        <div *ngIf="!poll.voted">
-            <input type="checkbox" name="{{option.name}}" (click)="onOptionVoted(option, poll)">{{option.name}}
+    <div class="poll-wrapper">
+        <div *ngIf="!poll.inEditingMode">
+            <h2 (click)="turnOnEditingMode(poll)">{{poll.title}}</h2>
+            <h4 (click)="turnOnEditingMode(poll)">{{poll.description}}</h4>
         </div>
-        <div *ngIf="poll.voted">
-            {{option.name}} has {{option.votes.length}} votes ({{option.percentage}}%)
-        </div>
-    </div>
+        <div *ngIf="poll.inEditingMode">
+            <button type="button" (click)="save(poll)" class="btn btn-success btn-sm">Save</button>
+            <button type="button" (click)="discard(poll)" class="btn btn-default btn-sm">Discard</button>
+            <button type="button" (click)="remove(poll)" class="btn btn-danger btn-sm">Remove this poll</button>
 
-    <div *ngIf="poll.inEditingMode">
-        <input type="text" name="new-option" placeholder="add new option?" />
+            <h2><input name="poll-title" type="text" [(ngModel)]="poll.title" />
+            </h2>
+            <h4><input name="poll-description" type="text" [(ngModel)]="poll.description" /></h4>
+        </div>
+
+        <div *ngFor="let option of poll.pollOptions">
+            <div *ngIf="!poll.voted">
+                <input type="checkbox" id="{{option.name}}" name="{{option.name}}" (click)="onOptionVoted(option, poll)">
+                <label [attr.for]="option.name">{{option.name}}</label>
+            </div>
+            <div *ngIf="poll.voted">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
+                        [style.width]="option.percentage + '%'">
+                        <label>{{option.name}}:&nbsp;{{option.votes.length}}&nbsp;votes,&nbsp;{{option.percentage}}%</label>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

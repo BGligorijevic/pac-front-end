@@ -3,6 +3,7 @@ import {Http} from "@angular/http";
 import * as Const from "../util/constants";
 import { ErrorComponent, ErrorHandler } from '../error/error';
 import {HeaderService} from "../util/header.service";
+import {Router} from "@angular/router";
 
 @Component({
   moduleId: module.id,
@@ -16,7 +17,8 @@ export class PollsComponent extends ErrorHandler {
   polls: Poll[];
   private pollToRestore: Poll = new Poll();
 
-  constructor(private http: Http, private headerService: HeaderService) {
+
+  constructor(private http: Http, private headerService: HeaderService, private router: Router) {
     super();
   }
 
@@ -60,7 +62,7 @@ export class PollsComponent extends ErrorHandler {
   }
 
   public remove(pollModel: Poll): void {
-    let result = confirm("Are you sure you wish to delete \"" + pollModel.title + "\"");
+    let result = confirm("Are you sure you wish to delete \"" + pollModel.title + "\". Existing votes will also be deleted.");
     if (!result) {
       return
     }
@@ -91,7 +93,10 @@ export class PollsComponent extends ErrorHandler {
   private copy(from: Poll, to: Poll): void {
     to.title = from.title;
     to.description = from.description;
-    to.pollOptions = from.pollOptions;
+  }
+
+  public addNewPoll(): void {
+    this.router.navigate(["new-poll"]);
   }
 }
 
@@ -104,7 +109,7 @@ export class Poll {
   description: string;
   creator: string;
   changeDate: Date;
-  pollOptions: PollOption[];
+  pollOptions: PollOption[] = new Array<PollOption>();
   voted: boolean;
   editable: boolean;
   deletable: boolean;
@@ -118,7 +123,7 @@ export class PollOption {
   _id: string;
   name: string;
   pollId: string;
-  votes: Vote[];
+  votes: Vote[] = new Array<Vote>();
   percentage: number;
 }
 

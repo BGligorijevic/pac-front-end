@@ -2,6 +2,7 @@ import {Component} from "@angular/core";
 import {ROUTER_DIRECTIVES, ROUTER_PROVIDERS, Routes, Router} from "@angular/router";
 import {HomeComponent} from "./home/home";
 import {LoginComponent} from "./login/login";
+import {NewPollComponent} from "./poll/new-poll";
 import {HTTP_PROVIDERS} from "@angular/http";
 import {FORM_PROVIDERS} from "@angular/common";
 import {HeaderService}  from "./util/header.service";
@@ -16,7 +17,8 @@ import {HeaderService}  from "./util/header.service";
 @Routes([
     { path: "/", component: HomeComponent },
     { path: "/polls", component: HomeComponent },
-    { path: "/login", component: LoginComponent }
+    { path: "/login", component: LoginComponent },
+    { path: "/new-poll", component: NewPollComponent }
 ])
 export class AppComponent {
 

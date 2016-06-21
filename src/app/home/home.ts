@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {LoginComponent, User, Role} from "../login/login";
+import {LoginComponent, User} from "../login/login";
 import {Router} from "@angular/router";
 import {Http} from "@angular/http";
 import {PollsComponent, Poll} from '../poll/polls';
