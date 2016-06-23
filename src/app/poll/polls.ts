@@ -62,9 +62,9 @@ export class PollsComponent extends ErrorHandler {
   }
 
   public remove(pollModel: Poll): void {
-    let result = confirm("Are you sure you wish to delete \"" + pollModel.title + "\". Existing votes will also be deleted.");
+    let result = confirm("Are you sure you want to delete \"" + pollModel.title + "\"? Existing votes will also be deleted.");
     if (!result) {
-      return
+      return;
     }
 
     let voteUrl = Const.DELETE_POLL_URL.replace("{pollId}", pollModel._id);
@@ -104,10 +104,10 @@ export class PollsComponent extends ErrorHandler {
  * Domain class representing Poll.
  */
 export class Poll {
-  _id: string;
-  title: string;
-  description: string;
-  creator: string;
+  _id: string = "";
+  title: string = "";
+  description: string = "";
+  creator: string = "";
   changeDate: Date;
   pollOptions: PollOption[] = new Array<PollOption>();
   voted: boolean;
@@ -120,19 +120,19 @@ export class Poll {
  * Domain class representing Option.
  */
 export class PollOption {
-  _id: string;
-  name: string;
-  pollId: string;
+  _id: string = "";
+  name: string = "";
+  pollId: string = "";
   votes: Vote[] = new Array<Vote>();
-  percentage: number;
+  percentage: number = 0;
 }
 
 /**
  * Domain class representing Vote.
  */
 export class Vote {
-  _id: string;
-  user: string;
-  optionId: string;
+  _id: string = "";
+  user: string = "";
+  optionId: string = "";
   changeDate: Date;
 }

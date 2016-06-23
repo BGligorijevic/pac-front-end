@@ -1,11 +1,24 @@
 <div class="container">
-    <form [ngFormModel]="loginForm" (submit)="savePoll($event)">
+    <form (submit)="savePoll($event)">
         <div class="form-group">
-            <input ngControl="title" type="title" placeholder="Poll title" class="form-control" />
+            <input (ngModelChange)="validate($event)" name="poll-title" type="text" [(ngModel)]="poll.title" placeholder="Title" class="form-control"
+            />
         </div>
         <div class="form-group">
-            <textarea ngControl="description" type="description" placeholder="Description" class="form-control" ></textarea>
+            <textarea name="poll-description" [(ngModel)]="poll.description" placeholder="Description" class="form-control"></textarea>
         </div>
-        <button type="submit" class="btn btn-default" [disabled]="!loginForm.valid">Save poll</button>
+        <div *ngFor="let option of poll.pollOptions">
+            <div class="form-group">
+                <input [(ngModel)]="option.name" (ngModelChange)="validate($event)" placeholder="option" class="form-control" />
+                <button type="button" class="btn btn-default btn-sm" class="btn btn-danger btn-sm" (click)="removeOption(option)">remove?</button>
+            </div>
+        </div>
+        <div class="form-group">
+            <button type="button" class="btn btn-default btn-sm" (click)="addOption()">add option?</button>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary" [disabled]="!valid">Save poll</button>
+            <error [model]="errorMessage"></error>
+        </div>
     </form>
 </div>
