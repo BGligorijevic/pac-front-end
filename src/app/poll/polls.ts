@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {Http} from "@angular/http";
 import * as Const from "../util/constants";
 import { ErrorComponent, ErrorHandler } from '../error/error';
 import {HeaderService} from "../util/header.service";
 import {Router} from "@angular/router";
+import {LoginComponent, User} from "../login/login";
 
 @Component({
   moduleId: module.id,
@@ -11,15 +12,20 @@ import {Router} from "@angular/router";
   templateUrl: "polls.html",
   directives: [ErrorComponent]
 })
-export class PollsComponent extends ErrorHandler {
+export class PollsComponent extends ErrorHandler implements OnInit {
 
   @Input("model")
   polls: Poll[];
   private pollToRestore: Poll = new Poll();
 
-
-  constructor(private http: Http, private headerService: HeaderService, private router: Router) {
+  constructor(private http: Http, private headerService: HeaderService, private router: Router, private login: LoginComponent) {
     super();
+  }
+
+  ngOnInit() {
+    if (!this.login.isLoggedIn()) {
+      this.router.navigate(["login"]);
+    }
   }
 
   public onOptionVoted(pollOption: PollOption, pollModel: Poll) {

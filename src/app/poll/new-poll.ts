@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {Http} from "@angular/http";
 import * as Const from "../util/constants";
 import { ErrorComponent, ErrorHandler } from '../error/error';
 import {HeaderService} from "../util/header.service";
 import {Poll, PollOption} from '../poll/polls';
+import {LoginComponent, User} from "../login/login";
 import {ROUTER_DIRECTIVES, Router} from "@angular/router";
 
 @Component({
@@ -12,16 +13,22 @@ import {ROUTER_DIRECTIVES, Router} from "@angular/router";
   templateUrl: "new-poll.html",
   directives: [ErrorComponent, ROUTER_DIRECTIVES]
 })
-export class NewPollComponent extends ErrorHandler {
+export class NewPollComponent extends ErrorHandler implements OnInit {
 
   private poll: Poll = new Poll();
   private valid: boolean;
 
-  constructor(private http: Http, private router: Router, private headerService: HeaderService) {
+  constructor(private http: Http, private router: Router, private headerService: HeaderService, private login: LoginComponent) {
     super();
 
     this.addOption();
     this.addOption();
+  }
+
+  ngOnInit() {
+    if (!this.login.isLoggedIn()) {
+      this.router.navigate(["login"]);
+    }
   }
 
   private validate(): void {
