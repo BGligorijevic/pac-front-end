@@ -1,4 +1,5 @@
 <div class="container">
+    <label>Every poll must contain minimum 2 options and a title.</label>
     <form (submit)="savePoll($event)">
         <div class="form-group">
             <input (ngModelChange)="validate($event)" name="poll-title" type="text" [(ngModel)]="poll.title" placeholder="Title" class="form-control"
